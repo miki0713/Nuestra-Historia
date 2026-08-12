@@ -65,4 +65,84 @@ document.addEventListener("DOMContentLoaded", () => {
     // Ejecutar ambas funciones al cargar la página
     updateCounter();
     setDailyQuote();
+
+    // -------------------------------------------------------------
+    // 3. LIGHTBOX: click en fotos para agrandar + desenfocar fondo
+    // - Click en la imagen abre un overlay con la imagen ampliada
+    // - Click nuevamente o presionar Escape cierra el overlay
+    // -------------------------------------------------------------
+    function openPhotoOverlay(src, alt) {
+        // Si ya hay un overlay, ciérralo primero
+        const existing = document.querySelector('.photo-overlay');
+        if (existing) return;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'photo-overlay';
+        overlay.tabIndex = 0;
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = alt || '';
+        overlay.appendChild(img);
+
+        // Cerrar al hacer click en cualquier lado del overlay
+        overlay.addEventListener('click', () => closePhotoOverlay(overlay));
+
+        // Evitar que click en la imagen cierre inmediatamente (se propaga al overlay)
+        img.addEventListener('click', (e) => e.stopPropagation());
+
+        document.body.appendChild(overlay);
+        // Deshabilitar scroll y aplicar clase para desenfoque del fondo
+        document.body.classList.add('is-lightbox-open');
+
+        // Forzar reflow y luego abrir (para que la transición funcione)
+        requestAnimationFrame(() => overlay.classList.add('open'));
+
+        // Cerrar con Escape
+        function onKey(e) {
+            if (e.key === 'Escape') closePhotoOverlay(overlay);
+        }
+
+        document.addEventListener('keydown', onKey);
+
+        // Remove listener cuando se cierre
+        overlay._cleanup = () => {
+            document.removeEventListener('keydown', onKey);
+        };
+    }
+
+    function closePhotoOverlay(overlay) {
+        if (!overlay) overlay = document.querySelector('.photo-overlay');
+        if (!overlay) return;
+        overlay.classList.remove('open');
+        document.body.classList.remove('is-lightbox-open');
+        // Esperar la transición y luego remover
+        overlay.addEventListener('transitionend', () => {
+            if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+            if (overlay && overlay._cleanup) overlay._cleanup();
+        }, { once: true });
+        // Fallback inmediato si no hay transitionend
+        setTimeout(() => {
+            if (document.querySelector('.photo-overlay')) {
+                const el = document.querySelector('.photo-overlay');
+                if (el && el.parentNode) el.parentNode.removeChild(el);
+            }
+            document.body.classList.remove('is-lightbox-open');
+        }, 400);
+    }
+
+    // Añadir listeners a todas las fotos dentro de .photo-card
+    const photoImages = document.querySelectorAll('.photo-card img');
+    photoImages.forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Si ya existe overlay, ciérralo
+            if (document.querySelector('.photo-overlay')) {
+                closePhotoOverlay();
+                return;
+            }
+            openPhotoOverlay(img.src, img.alt);
+        });
+    });
 });
