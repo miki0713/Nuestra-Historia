@@ -193,4 +193,52 @@ document.addEventListener("DOMContentLoaded", () => {
             openPhotoOverlay(img.src, img.alt);
         });
     });
+
+    // -------------------------------------------------------------
+    // Notas / Cartas interactivas: toggle open/close al click o tecla
+    // -------------------------------------------------------------
+    const noteCards = document.querySelectorAll('.note-card');
+    noteCards.forEach(card => {
+        function toggle(e) {
+            // si el overlay de bienvenida está presente, ignorar
+            if (document.getElementById('welcome-overlay')) return;
+            const isOpen = card.classList.contains('open');
+            card.classList.toggle('open');
+            card.setAttribute('aria-expanded', String(!isOpen));
+        }
+
+        card.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggle(e);
+        });
+
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggle(e);
+            }
+            // Escape: cerrar
+            if (e.key === 'Escape') {
+                card.classList.remove('open');
+                card.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+
+    // Cerrar cualquier nota abierta al hacer click fuera
+    document.addEventListener('click', () => {
+        noteCards.forEach(c => {
+            if (c.classList.contains('open')) {
+                c.classList.remove('open');
+                c.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+
+    // Evitar que clicks internos en .note-inner cierren inmediatamente (propagación)
+    document.addEventListener('click', (e) => {
+        if (e.target.closest && e.target.closest('.note-inner')) {
+            e.stopPropagation();
+        }
+    }, true);
 });
