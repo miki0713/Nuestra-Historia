@@ -312,6 +312,60 @@ body {
     }
 }
 
+/* Lightbox / Overlay para agrandar fotos */
+.photo-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px) saturate(1.02);
+    -webkit-backdrop-filter: blur(6px) saturate(1.02);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 220ms ease, backdrop-filter 220ms ease, background-color 220ms ease;
+}
+
+.photo-overlay.open {
+    opacity: 1;
+    backdrop-filter: blur(8px) saturate(1.03);
+}
+
+.photo-overlay img {
+    max-width: 92%;
+    max-height: 92%;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.65);
+    transform: scale(0.96);
+    transition: transform 260ms cubic-bezier(.2,.8,.2,1), filter 260ms ease;
+}
+
+.photo-overlay.open img {
+    transform: scale(1);
+}
+
+.photo-overlay:focus {
+    outline: none;
+}
+
+/* Añadir desenfoque al resto del contenido cuando el lightbox está abierto */
+body.is-lightbox-open > *:not(.photo-overlay) {
+    filter: blur(6px) brightness(0.95);
+    transition: filter 220ms ease;
+    pointer-events: none;
+    user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .photo-overlay,
+    .photo-overlay img,
+    body.is-lightbox-open > *:not(.photo-overlay) {
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
 /* ==========================================
    FOOTER
    ========================================== */
