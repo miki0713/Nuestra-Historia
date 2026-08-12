@@ -1,0 +1,310 @@
+/* ==========================================
+   VARIABLES (Mismos colores cálidos/neutros)
+   ========================================== */
+:root {
+    --bg-primary: #3c0b0b;
+    --card-bg: #f4eeee;
+    --text-primary: #0f133b;
+    --text-muted: #eef1f5;
+    --accent-color: #eee7e8;
+    --border-color: #0a080a;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================
+   ESTILOS BASE (Letra limpia y normal)
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* Tipografía limpia y profesional */
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* ==========================================
+   ENCABEZADO (Estructura de 3 partes)
+   ========================================== */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: var(--card-bg);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.header-box {
+    flex: 1;
+}
+
+/* Contador (Izquierda) */
+.counter-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    max-width: 150px;
+}
+
+.counter-box .number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    line-height: 1;
+}
+
+.counter-box .text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Título Central */
+.title-box {
+    text-align: center;
+}
+.title-box {
+    text-align: center;
+}
+
+/* Estilo para la frase/insignia centrada */
+.header-title-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: var(--card-bg, #ffffff); /* Fondo suave */
+    color: var(--text-primary, #2b2d42);       /* Color de texto principal */
+    border: 1px solid var(--border-color, #e5e0d8);
+    border-radius: 50px;                       /* Forma redondeada estilo cápsula */
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.title-box h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid var(--border-color);
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 50px;
+}
+
+/* Nombres (Derecha) */
+.names-box {
+    text-align: right;
+}
+
+.names-box h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL (El Grid)
+   ========================================== */
+.layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Mitad y mitad */
+    gap: 50px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+/* ==========================================
+   TARJETA DE FRASE DIARIA (Estilo Minimalista)
+   ========================================== */
+.daily-quote-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin-bottom: 35px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    position: relative;
+}
+
+.quote-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+.daily-quote-card p {
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: #4a4e69;
+    line-height: 1.5;
+}
+/* ==========================================
+   COLUMNA IZQUIERDA: Poema
+   ========================================== */
+.poem-section {
+    margin-bottom: 50px;
+}
+
+.poem-text {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+.poem-text p {
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+    color: #4a4e69;
+}
+
+/* ==========================================
+   COLUMNA IZQUIERDA: Canciones
+   ========================================== */
+.songs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 canciones en fila */
+    gap: 15px;
+}
+
+.song-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease;
+}
+
+.song-card:hover {
+    transform: translateY(-3px);
+}
+
+.song-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.song-info h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: var(--text-primary);
+}
+
+.song-info p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ==========================================
+   COLUMNA DERECHA: Fotos
+   ========================================== */
+.photo-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Espacio entre fotos hacia abajo */
+}
+
+.photo-card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+.photo-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.photo-caption {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+footer {
+    text-align: left;
+    padding: 20px 40px;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    font-weight: 500;
+    border-top: 1px solid var(--border-color);
+    margin-top: 40px;
+}
+
+/* ==========================================
+   ADAPTACIÓN PARA CELULARES
+   ========================================== */
+@media (max-width: 850px) {
+    /* Header en celular */
+    .top-header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+    
+    .names-box {
+        text-align: center;
+    }
+    
+    .counter-box {
+        max-width: 100%;
+        width: 100%;
+        align-items: center;
+    }
+
+    /* Columnas en celular (una debajo de la otra) */
+    .layout-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    /* Canciones en celular (scroleables o en 2 columnas) */
+    .songs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    footer {
+        text-align: center;
+    }
+}
