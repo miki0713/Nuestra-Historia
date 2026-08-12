@@ -241,4 +241,66 @@ document.addEventListener("DOMContentLoaded", () => {
             e.stopPropagation();
         }
     }, true);
+
+    // -------------------------------------------------------------
+    // Video lightbox: abrir video en grande y reproducir completo
+    // -------------------------------------------------------------
+    const videoCards = document.querySelectorAll('.video-card .video-player');
+    function openVideoOverlay(src) {
+        if (document.querySelector('.video-overlay')) return;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'video-overlay';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'video-close';
+        closeBtn.setAttribute('aria-label', 'Cerrar video');
+        closeBtn.textContent = '✕';
+
+        const container = document.createElement('div');
+        container.className = 'video-full';
+
+        const video = document.createElement('video');
+        video.src = src;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.preload = 'auto';
+
+        container.appendChild(video);
+        overlay.appendChild(container);
+        overlay.appendChild(closeBtn);
+        document.body.appendChild(overlay);
+        document.body.classList.add('is-video-open');
+
+        // Forzar mostrar overlay
+        requestAnimationFrame(() => overlay.classList.add('open'));
+
+        // Manejo cierre
+        function close() {
+            try { video.pause(); } catch (e) {}
+            overlay.classList.remove('open');
+            document.body.classList.remove('is-video-open');
+            overlay.addEventListener('transitionend', () => {
+                if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+            }, { once: true });
+            setTimeout(() => { if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 350);
+            document.removeEventListener('keydown', onKey);
+        }
+
+        closeBtn.addEventListener('click', close);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+
+        function onKey(e) { if (e.key === 'Escape') close(); }
+        document.addEventListener('keydown', onKey);
+    }
+
+    videoCards.forEach(v => {
+        v.style.cursor = 'zoom-in';
+        v.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const src = v.getAttribute('src') || v.dataset.src || '';
+            if (src) openVideoOverlay(src);
+        });
+    });
 });
