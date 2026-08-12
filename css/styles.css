@@ -449,6 +449,99 @@ body.has-welcome {
     }
 }
 
+/* ==========================
+   Notas / Cartas Interactivas
+   ========================== */
+.notes-section {
+    margin-top: 30px;
+}
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+}
+
+.note-card {
+    position: relative;
+    perspective: 900px;
+    cursor: pointer;
+    outline: none;
+}
+
+.note-front {
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 18px 12px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    transform-origin: center top;
+    transition: transform 300ms cubic-bezier(.2,.8,.2,1), box-shadow 300ms ease;
+}
+
+.note-front .seal {
+    font-size: 1.4rem;
+}
+
+.note-front .note-title {
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+.note-inner {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 100%;
+    margin-top: 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 14px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform-origin: top center;
+    transition: max-height 320ms ease, opacity 260ms ease, transform 320ms cubic-bezier(.2,.8,.2,1);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    z-index: 2;
+}
+
+.note-content p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.note-card.open .note-front {
+    transform: translateY(-10px) rotateX(8deg) scale(1.02);
+    box-shadow: 0 18px 48px rgba(0,0,0,0.55);
+}
+
+.note-card.open .note-inner {
+    max-height: 240px; /* suficiente para mostrar el contenido */
+    opacity: 1;
+    transform: translateY(6px) scale(1);
+}
+
+.note-card:focus .note-front,
+.note-card:hover .note-front {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+}
+
+/* Si prefiere reducir movimiento, desactivar animaciones */
+@media (prefers-reduced-motion: reduce) {
+    .note-front,
+    .note-inner {
+        transition: none !important;
+    }
+}
+
 /* ==========================================
    FOOTER
    ========================================== */
