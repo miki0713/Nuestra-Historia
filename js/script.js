@@ -67,6 +67,54 @@ document.addEventListener("DOMContentLoaded", () => {
     setDailyQuote();
 
     // -------------------------------------------------------------
+    // 2. PANTALLA DE BIENVENIDA (overlay inicial)
+    // - Muestra al cargar; al hacer click en 'Entrar' se hace fade-out
+    // -------------------------------------------------------------
+    const welcomeOverlay = document.getElementById('welcome-overlay');
+    const enterBtn = document.getElementById('enter-site');
+    if (welcomeOverlay) {
+        // Evitar scroll mientras esté visible
+        document.body.classList.add('has-welcome');
+        // Forzar focus al botón para accesibilidad
+        if (enterBtn) enterBtn.focus();
+
+        function hideWelcome() {
+            welcomeOverlay.classList.add('hidden');
+            document.body.classList.remove('has-welcome');
+            // Esperar fin de transición y remover del DOM
+            welcomeOverlay.addEventListener('transitionend', () => {
+                if (welcomeOverlay && welcomeOverlay.parentNode) welcomeOverlay.parentNode.removeChild(welcomeOverlay);
+            }, { once: true });
+            // Fallback por si no ocurre transitionend
+            setTimeout(() => {
+                if (welcomeOverlay && welcomeOverlay.parentNode) welcomeOverlay.parentNode.removeChild(welcomeOverlay);
+            }, 500);
+        }
+
+        if (enterBtn) {
+            enterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                hideWelcome();
+            });
+            // Soportar tecla Enter/Space
+            enterBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    hideWelcome();
+                }
+            });
+        }
+
+        // Permitir cerrar con Escape por accesibilidad
+        document.addEventListener('keydown', function escHandler(e) {
+            if (e.key === 'Escape' && document.body.classList.contains('has-welcome')) {
+                hideWelcome();
+                document.removeEventListener('keydown', escHandler);
+            }
+        });
+    }
+
+    // -------------------------------------------------------------
     // 3. LIGHTBOX: click en fotos para agrandar + desenfocar fondo
     // - Click en la imagen abre un overlay con la imagen ampliada
     // - Click nuevamente o presionar Escape cierra el overlay
