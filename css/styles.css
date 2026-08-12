@@ -216,11 +216,14 @@ body {
     padding: 10px;
     text-align: center;
     box-shadow: var(--shadow);
-    transition: transform 0.2s ease;
+    transition: transform 250ms cubic-bezier(.2,.8,.2,1), box-shadow 250ms ease, filter 250ms ease;
 }
 
-.song-card:hover {
-    transform: translateY(-3px);
+.song-card:hover,
+.song-card:focus-within {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    filter: brightness(1.03);
 }
 
 .song-img {
@@ -258,6 +261,14 @@ body {
     border-radius: 12px;
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow);
+    transition: transform 250ms cubic-bezier(.2,.8,.2,1), box-shadow 250ms ease, filter 250ms ease;
+}
+
+.photo-card:hover,
+.photo-card:focus-within {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+    filter: saturate(1.03) brightness(1.02);
 }
 
 .photo-card img {
@@ -272,6 +283,33 @@ body {
     margin-top: 15px;
     font-size: 0.95rem;
     color: var(--text-muted);
+}
+
+/* Hover suave para la tarjeta de la frase del día y el poema */
+.daily-quote-card,
+.poem-text {
+    transition: transform 250ms cubic-bezier(.2,.8,.2,1), box-shadow 250ms ease, filter 250ms ease;
+}
+
+.daily-quote-card:hover,
+.daily-quote-card:focus-within,
+.poem-text:hover,
+.poem-text:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    filter: brightness(1.02);
+}
+
+/* Accesibilidad: respetar preferencia de reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+    .song-card,
+    .photo-card,
+    .daily-quote-card,
+    .poem-text {
+        transition: none !important;
+        transform: none !important;
+        box-shadow: none !important;
+    }
 }
 
 /* ==========================================
