@@ -48,16 +48,17 @@ body {
    ENCABEZADO (Estructura de 3 partes)
    ========================================== */
 .top-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* left / center / right */
+    align-items: center; /* vertical centering */
     padding: 20px 40px;
     background-color: var(--card-bg);
     border-bottom: 2px solid var(--border-color);
 }
 
+/* header-box containers live in the 3 grid areas; avoid flexible growth here */
 .header-box {
-    flex: 1;
+    min-width: 0;
 }
 
 /* Contador (Izquierda) */
@@ -69,6 +70,7 @@ body {
     padding: 10px 20px;
     border-radius: 8px;
     max-width: 150px;
+    justify-self: start; /* align to left grid cell */
 }
 
 .counter-box .number {
@@ -87,7 +89,11 @@ body {
 
 /* Título Central */
 .title-box {
+    justify-self: center; /* strictly centered horizontally in the grid */
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Estilo para la frase/insignia centrada */
@@ -118,6 +124,7 @@ body {
 
 /* Nombres (Derecha) */
 .names-box {
+    justify-self: end; /* align to right grid cell */
     text-align: right;
 }
 
@@ -673,21 +680,25 @@ footer {
    ADAPTACIÓN PARA CELULARES
    ========================================== */
 @media (max-width: 850px) {
-    /* Header en celular */
+    /* Header en celular: apilar en una columna y centrar */
     .top-header {
-        flex-direction: column;
-        gap: 15px;
-        padding: 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 18px;
+        justify-items: center;
     }
-    
+
     .names-box {
         text-align: center;
+        justify-self: center;
     }
-    
+
     .counter-box {
         max-width: 100%;
-        width: 100%;
+        width: auto;
         align-items: center;
+        justify-self: center;
     }
 
     /* Columnas en celular (una debajo de la otra) */
