@@ -740,6 +740,46 @@ footer {
     .video-grid { grid-template-columns: 1fr; gap: 12px; }
     .video-caption { padding: 8px 10px; font-size: 0.9rem; }
     .note-front { padding: 14px; min-height: 80px; }
+
+    /* Notas: una columna clara y sin opacidad; evitar superposición en móvil */
+    .notes-grid {
+        grid-template-columns: 1fr; /* forzar una columna */
+        gap: 14px;
+    }
+
+    .note-card {
+        perspective: none;
+        width: 100%;
+    }
+
+    /* En móvil la parte interior se comporta de forma estática para empujar contenido, no superponer */
+    .note-inner {
+        position: static !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        margin-top: 8px;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: none !important;
+        box-shadow: none !important;
+        z-index: auto !important;
+        transition: max-height 280ms ease, opacity 220ms ease;
+        background: var(--card-bg) !important; /* sin transparencia */
+        border: 1px solid var(--border-color) !important;
+    }
+
+    .note-card.open .note-inner {
+        max-height: 400px; /* dará espacio para el contenido abierto */
+        opacity: 1;
+    }
+
+    .note-front,
+    .note-inner {
+        background: var(--card-bg) !important; /* asegurar fondo opaco */
+        color: var(--text-primary) !important;
+    }
 }
 
 /* Tablet */
